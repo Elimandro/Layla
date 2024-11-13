@@ -1,0 +1,283 @@
+<html lang="es">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Tamagotchi Husky
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+            font-family: 'Press Start 2P', cursive;
+        }
+        .pixel-art {
+            image-rendering: pixelated;
+        }
+        .animate-bounce {
+            animation: bounce 1s infinite;
+        }
+        .animate-feed {
+            animation: feed 1s infinite;
+        }
+        .animate-play {
+            animation: play 1s infinite;
+        }
+        .animate-sleep {
+            animation: sleep 1s infinite;
+        }
+        .animate-walk {
+            animation: walk 1s infinite;
+        }
+        .animate-jump {
+            animation: jump 1s infinite;
+        }
+        .animate-spin {
+            animation: spin 1s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        @keyframes feed {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(10px);
+            }
+        }
+        @keyframes play {
+            0%, 100% {
+                transform: rotate(0);
+            }
+            50% {
+                transform: rotate(10deg);
+            }
+        }
+        @keyframes sleep {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(0.9);
+            }
+        }
+        @keyframes walk {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(20px);
+            }
+        }
+        @keyframes jump {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+  </style>
+ </head>
+ <body class="bg-gray-900 flex flex-col items-center justify-center min-h-screen p-4">
+  <div class="bg-gray-800 rounded-lg shadow-lg p-6 w-full max-w-xs">
+   <h1 class="text-2xl text-center text-pink-400 mb-4">
+    Husky de Noelia
+   </h1>
+   <div class="flex justify-center mb-4">
+    <img alt="Pixel art de un cachorro de Husky Siberiano con ojos azules" class="pixel-art animate-bounce" height="100" id="huskyImage" src="https://storage.googleapis.com/a1aa/image/6MenNXDOnfsji0GqO6MfEIDA4kpOPfWyesf8IaNrNgPMJtG8E.jpg" width="100"/>
+   </div>
+   <div class="text-center mb-4">
+    <p class="text-lg text-gray-300">
+     ¡Conoce a tu adorable Husky!
+    </p>
+    <p class="text-sm text-gray-500">
+     Cuida de tu Husky para mantenerlo feliz y saludable.
+    </p>
+   </div>
+   <div class="flex flex-col items-center mb-4 space-y-2">
+    <button class="bg-blue-500 text-white px-4 py-2 rounded-full shadow hover:bg-blue-600 w-full" onclick="alimentarHusky()">
+     <i class="fas fa-utensils">
+     </i>
+     Alimentar
+    </button>
+    <button class="bg-green-500 text-white px-4 py-2 rounded-full shadow hover:bg-green-600 w-full" onclick="jugarHusky()">
+     <i class="fas fa-heart">
+     </i>
+     Jugar
+    </button>
+    <button class="bg-yellow-500 text-white px-4 py-2 rounded-full shadow hover:bg-yellow-600 w-full" onclick="dormirHusky()">
+     <i class="fas fa-bed">
+     </i>
+     Dormir
+    </button>
+   </div>
+   <div class="text-center">
+    <p class="text-lg text-gray-300 mb-2">
+     Estado del Husky
+    </p>
+    <div class="flex justify-between items-center mb-2">
+     <span class="text-gray-400">
+      Hambre
+     </span>
+     <div class="w-3/4 bg-gray-700 rounded-full h-4">
+      <div class="bg-red-500 h-4 rounded-full" id="hungerBar" style="width: 50%;">
+      </div>
+     </div>
+    </div>
+    <div class="flex justify-between items-center mb-2">
+     <span class="text-gray-400">
+      Felicidad
+     </span>
+     <div class="w-3/4 bg-gray-700 rounded-full h-4">
+      <div class="bg-green-500 h-4 rounded-full" id="happinessBar" style="width: 75%;">
+      </div>
+     </div>
+    </div>
+    <div class="flex justify-between items-center mb-2">
+     <span class="text-gray-400">
+      Energía
+     </span>
+     <div class="w-3/4 bg-gray-700 rounded-full h-4">
+      <div class="bg-yellow-500 h-4 rounded-full" id="energyBar" style="width: 60%;">
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+   let hambre = 50;
+        let felicidad = 75;
+        let energia = 60;
+
+        function actualizarBarras() {
+            document.getElementById('hungerBar').style.width = hambre + '%';
+            document.getElementById('happinessBar').style.width = felicidad + '%';
+            document.getElementById('energyBar').style.width = energia + '%';
+        }
+
+        function alimentarHusky() {
+            hambre = Math.min(hambre + 10, 100);
+            felicidad = Math.max(felicidad - 5, 0);
+            energia = Math.max(energia - 5, 0);
+            document.getElementById('huskyImage').src = 'https://placehold.co/100x100/transparent/transparent.png?text=Husky+Comiendo';
+            document.getElementById('huskyImage').className = 'pixel-art animate-feed';
+            actualizarBarras();
+        }
+
+        function jugarHusky() {
+            felicidad = Math.min(felicidad + 10, 100);
+            energia = Math.max(energia - 10, 0);
+            hambre = Math.max(hambre - 5, 0);
+            document.getElementById('huskyImage').src = 'https://placehold.co/100x100/transparent/transparent.png?text=Husky+Jugando';
+            document.getElementById('huskyImage').className = 'pixel-art animate-play';
+            actualizarBarras();
+            abrirMiniJuego();
+        }
+
+        function dormirHusky() {
+            energia = Math.min(energia + 20, 100);
+            hambre = Math.max(hambre - 10, 0);
+            felicidad = Math.max(felicidad - 5, 0);
+            document.getElementById('huskyImage').src = 'https://placehold.co/100x100/transparent/transparent.png?text=Husky+Durmiendo';
+            document.getElementById('huskyImage').className = 'pixel-art animate-sleep';
+            actualizarBarras();
+        }
+
+        function abrirMiniJuego() {
+            const miniJuegoVentana = window.open("", "MiniJuego", "width=400,height=400");
+            miniJuegoVentana.document.write(`
+                <html>
+                <head>
+                    <title>Mini Juego</title>
+                    <style>
+                        body {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            height: 100vh;
+                            background-color: #1a202c;
+                            margin: 0;
+                            overflow: hidden;
+                        }
+                        canvas {
+                            background-color: #2d3748;
+                            border: 2px solid #4a5568;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <canvas id="gameCanvas" width="400" height="400"></canvas>
+                    <script>
+                        const canvas = document.getElementById('gameCanvas');
+                        const ctx = canvas.getContext('2d');
+
+                        let pelota = { x: 200, y: 200, radio: 10, dx: 2, dy: -2 };
+                        let husky = { x: 180, y: 350, ancho: 40, alto: 40 };
+
+                        function dibujarPelota() {
+                            ctx.beginPath();
+                            ctx.arc(pelota.x, pelota.y, pelota.radio, 0, Math.PI * 2);
+                            ctx.fillStyle = "#ff6b6b";
+                            ctx.fill();
+                            ctx.closePath();
+                        }
+
+                        function dibujarHusky() {
+                            ctx.beginPath();
+                            ctx.rect(husky.x, husky.y, husky.ancho, husky.alto);
+                            ctx.fillStyle = "#4fd1c5";
+                            ctx.fill();
+                            ctx.closePath();
+                        }
+
+                        function moverHusky(event) {
+                            const rect = canvas.getBoundingClientRect();
+                            husky.x = event.clientX - rect.left - husky.ancho / 2;
+                        }
+
+                        function actualizar() {
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            dibujarPelota();
+                            dibujarHusky();
+
+                            if (pelota.x + pelota.dx > canvas.width - pelota.radio || pelota.x + pelota.dx < pelota.radio) {
+                                pelota.dx = -pelota.dx;
+                            }
+                            if (pelota.y + pelota.dy < pelota.radio) {
+                                pelota.dy = -pelota.dy;
+                            } else if (pelota.y + pelota.dy > canvas.height - pelota.radio) {
+                                if (pelota.x > husky.x && pelota.x < husky.x + husky.ancho) {
+                                    pelota.dy = -pelota.dy;
+                                } else {
+                                    document.location.reload();
+                                }
+                            }
+
+                            pelota.x += pelota.dx;
+                            pelota.y += pelota.dy;
+
+                            requestAnimationFrame(actualizar);
+                        }
+
+                        canvas.addEventListener('mousemove', moverHusky);
+                        actualizar();
+                    </script>
+                </body>
+                </html>
